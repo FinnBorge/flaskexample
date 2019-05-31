@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+<!--{% block title %}Title{% endblock %}-->-
+{% block head %}
+  {{ super() }}
+{% endblock %}
+{% block content %}
+  <h4>Find an Organization</h4>
+  <form method="post">
+    <div class="row">
+      <div class="six columns">
+        <label for="organizationInput">Organization</label>
+        <input class="u-full-width" type=text name=organization id="organizationInput" placeholder="GitHub">
+      </div>
+    </div>
+    <input class="button-primary" type="submit" value="Search Github">
+  </form>
+  {% if repository_list %}
+  <div class="container">
+    <div class="four columns">
+      <button id="sort-forks">Sort by fork count (desc.)</button>
+    </div>
+    <div class="four columns">
+      <button id="sort-stars">Sort by star count (desc.)</button>
+    </div>
+    <div class="four columns">
+      <button id="sort-contributors">Sort by contributor count (desc.)</button>
+    </div>
+  </div>
+  {% endif %}
+  <hr/>
+  <ol id="repo-list">
+  {% for repo in repository_list %}
+    <li class="repository"
+      data-fork-count="{{repository_list[repo]['forks']}}"
+      data-star-count="{{repository_list[repo]['stars']}}"
+      data-contributor-count="{{repository_list[repo]['contributors']}}"
+    >
+      <a href="{{repository_list[repo]['html_url']}}">
+        {{repo}}
+      </a>
+      {{repository_list[repo]['description']}}
+    </li>
+    <span>
+      forks: {{repository_list[repo]['forks']}}
+      stars: {{repository_list[repo]['stars']}}
+      contributors: {{repository_list[repo]['contributors']}}
+    </span>
+  {% endfor %}
+  </ol>
+{% endblock %}
